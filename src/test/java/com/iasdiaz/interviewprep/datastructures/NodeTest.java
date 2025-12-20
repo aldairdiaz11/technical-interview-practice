@@ -1,0 +1,52 @@
+package com.iasdiaz.interviewprep.datastructures;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+public class NodeTest {
+    private Node node;
+
+    @BeforeEach
+    void setUp() {
+        node = new Node("Test Data");
+    }
+
+    @Test
+    void testConstructor() {
+        final Node newNode = new Node("Constructor Test");
+        assertEquals("Constructor Test", newNode.getData());
+        assertNull(newNode.getNext());
+    }
+
+    @Test
+    void testGetData() {
+        assertEquals("Test Data", node.getData());
+    }
+
+    @Test
+    void testSetData() {
+        node.setData("Updated Data");
+        assertEquals("Updated Data", node.getData());
+    }
+
+    @Test
+    void testGetNext() {
+        assertNull(node.getNext());
+    }
+
+    @Test
+    void testSetNext() {
+        final Node nextNode = new Node("Next Data");
+        node.setNext(nextNode);
+        assertEquals(nextNode, node.getNext());
+        assertEquals("Next Data", node.getNext().getData());
+    }
+
+    @Test
+    void testToString() {
+        assertEquals("Node{data=Test Data}", node.toString());
+    }
+}
