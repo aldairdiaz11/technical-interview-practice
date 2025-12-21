@@ -19,6 +19,7 @@ public class NodeTest {
         final Node newNode = new Node("Constructor Test");
         assertEquals("Constructor Test", newNode.getData());
         assertNull(newNode.getNext());
+        assertNull(newNode.getPrev());
     }
 
     @Test
@@ -43,6 +44,19 @@ public class NodeTest {
         node.setNext(nextNode);
         assertEquals(nextNode, node.getNext());
         assertEquals("Next Data", node.getNext().getData());
+    }
+
+    @Test
+    void testGetPrev() {
+        assertNull(node.getPrev());
+    }
+
+    @Test
+    void testSetPrev() {
+        Node prevNode = new Node("Prev Data");
+        node.setPrev(prevNode);
+        assertEquals(prevNode, node.getPrev());
+        assertEquals("Prev Data", node.getPrev().getData());
     }
 
     @Test

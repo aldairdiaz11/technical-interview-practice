@@ -3,6 +3,7 @@ package com.iasdiaz.interviewprep.datastructures;
 public class Node {
     private String data;
     private Node next;
+    private Node prev;
 
     public Node(final String data) {
         this.data = data;
@@ -23,6 +24,14 @@ public class Node {
 
     public void setNext(final Node next) {
         this.next = next;
+    }
+
+    public Node getPrev() {
+        return prev;
+    }
+
+    public void setPrev(final Node prev) {
+        this.prev = prev;
     }
 
     @Override
