@@ -50,4 +50,12 @@ public class LinkedList<T> {
         output.append("<tail>");
         return output.toString();
     }
+
+    public T peekHead() {
+        final Node<T> current = this.head;
+        if (current == null) {
+            return null;
+        }
+        return current.getData();
+    }
 }

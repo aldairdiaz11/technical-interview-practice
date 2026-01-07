@@ -38,4 +38,17 @@ public class LinkedListTest {
         assertEquals("B", list.removeHead());
         assertNull(list.removeHead());
     }
+
+    @Test
+    void testPeek() {
+        list.addToTail("A");
+        list.addToTail("B");
+
+        assertEquals("A", list.peekHead());
+    }
+
+    @Test
+    void testPeekHeadEmpty() {
+        assertNull(list.peekHead());
+    }
 }
