@@ -4,10 +4,10 @@ import com.iasdiaz.interviewprep.datastructures.Node;
 
 import java.util.Objects;
 
-public class DoublyLinkedList {
+public class DoublyLinkedList<T> {
 
-    private Node head;
-    private Node tail;
+    private Node<T> head;
+    private Node<T> tail;
     private int size;
 
     public DoublyLinkedList() {
@@ -16,9 +16,9 @@ public class DoublyLinkedList {
         this.size = 0;
     }
 
-    public void addToHead(final String data) {
-        final Node newHead = new Node(data);
-        final Node currentHead = getHead();
+    public void addToHead(final T data) {
+        final Node<T> newHead = new Node<>(data);
+        final Node<T> currentHead = getHead();
         if (currentHead != null) {
             currentHead.setPrev(newHead);
             newHead.setNext(currentHead);
@@ -31,9 +31,9 @@ public class DoublyLinkedList {
         }
     }
 
-    public void addToTail(final String data) {
-        final Node newTail = new Node(data);
-        final Node currentTail = getTail();
+    public void addToTail(final T data) {
+        final Node<T> newTail = new Node<>(data);
+        final Node<T> currentTail = getTail();
 
         if (currentTail != null) {
             currentTail.setNext(newTail);
@@ -47,8 +47,8 @@ public class DoublyLinkedList {
         }
     }
 
-    public String removeHead() {
-        final Node removedHead = getHead();
+    public T removeHead() {
+        final Node<T> removedHead = getHead();
         if (removedHead == null) {
             return null;
         }
@@ -62,8 +62,8 @@ public class DoublyLinkedList {
         return removedHead.getData();
     }
 
-    public String removeTail() {
-        final Node removedTail = getTail();
+    public T removeTail() {
+        final Node<T> removedTail = getTail();
         if (removedTail == null) {
             return null;
         }
@@ -78,9 +78,9 @@ public class DoublyLinkedList {
         return removedTail.getData();
     }
 
-    public Node removeByData(final String data) {
-        Node nodeToRemove = null;
-        Node currentNode = getHead();
+    public Node<T> removeByData(final T data) {
+        Node<T> nodeToRemove = null;
+        Node<T> currentNode = getHead();
 
         while (currentNode != null) {
             if (Objects.equals(currentNode.getData(), data)) {
@@ -98,8 +98,8 @@ public class DoublyLinkedList {
         } else if (nodeToRemove == getTail()) {
             this.removeTail();
         } else {
-            Node nextNode = nodeToRemove.getNext();
-            Node previousNode = nodeToRemove.getPrev();
+            Node<T> nextNode = nodeToRemove.getNext();
+            Node<T> previousNode = nodeToRemove.getPrev();
 
             nextNode.setPrev(previousNode);
             previousNode.setNext(nextNode);
@@ -108,11 +108,11 @@ public class DoublyLinkedList {
         return nodeToRemove;
     }
 
-    public Node getHead() {
+    public Node<T> getHead() {
         return this.head;
     }
 
-    public Node getTail() {
+    public Node<T> getTail() {
         return this.tail;
     }
 
@@ -126,7 +126,7 @@ public class DoublyLinkedList {
 
     public String printList() {
         final StringBuilder output = new StringBuilder("<head> ");
-        Node currentNode = getHead();
+        Node<T> currentNode = getHead();
         while (currentNode != null) {
             output.append(currentNode.getData()).append(" -> ");
             currentNode = currentNode.getNext();

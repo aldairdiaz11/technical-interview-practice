@@ -9,11 +9,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DoublyLinkedListTest {
 
-    private DoublyLinkedList dll;
+    private DoublyLinkedList<String> dll;
 
     @BeforeEach
     void setUp() {
-        dll = new DoublyLinkedList();
+        dll = new DoublyLinkedList<>();
     }
 
     @Test
@@ -102,7 +102,7 @@ public class DoublyLinkedListTest {
         assertEquals(3, dll.getSize());
 
         // Remove middle
-        Node removed = dll.removeByData("B");
+        Node<String> removed = dll.removeByData("B");
         assertNotNull(removed);
         assertEquals("B", removed.getData());
         assertEquals("A", dll.getHead().getData());

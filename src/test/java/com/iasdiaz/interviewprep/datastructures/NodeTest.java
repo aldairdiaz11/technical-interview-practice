@@ -7,16 +7,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class NodeTest {
-    private Node node;
+    private Node<String> node;
 
     @BeforeEach
     void setUp() {
-        node = new Node("Test Data");
+        node = new Node<>("Test Data");
     }
 
     @Test
     void testConstructor() {
-        final Node newNode = new Node("Constructor Test");
+        final Node<String> newNode = new Node<>("Constructor Test");
         assertEquals("Constructor Test", newNode.getData());
         assertNull(newNode.getNext());
         assertNull(newNode.getPrev());
@@ -40,7 +40,7 @@ public class NodeTest {
 
     @Test
     void testSetNext() {
-        final Node nextNode = new Node("Next Data");
+        final Node<String> nextNode = new Node<>("Next Data");
         node.setNext(nextNode);
         assertEquals(nextNode, node.getNext());
         assertEquals("Next Data", node.getNext().getData());
@@ -53,7 +53,7 @@ public class NodeTest {
 
     @Test
     void testSetPrev() {
-        Node prevNode = new Node("Prev Data");
+        Node<String> prevNode = new Node<>("Prev Data");
         node.setPrev(prevNode);
         assertEquals(prevNode, node.getPrev());
         assertEquals("Prev Data", node.getPrev().getData());

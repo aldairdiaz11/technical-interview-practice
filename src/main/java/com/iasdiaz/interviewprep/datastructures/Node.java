@@ -1,36 +1,36 @@
 package com.iasdiaz.interviewprep.datastructures;
 
-public class Node {
-    private String data;
-    private Node next;
-    private Node prev;
+public class Node<T> {
+    private T data;
+    private Node<T> next;
+    private Node<T> prev;
 
-    public Node(final String data) {
+    public Node(final T data) {
         this.data = data;
         this.next = null;
     }
 
-    public String getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(final String data) {
+    public void setData(final T data) {
         this.data = data;
     }
 
-    public Node getNext() {
+    public Node<T> getNext() {
         return next;
     }
 
-    public void setNext(final Node next) {
+    public void setNext(final Node<T> next) {
         this.next = next;
     }
 
-    public Node getPrev() {
+    public Node<T> getPrev() {
         return prev;
     }
 
-    public void setPrev(final Node prev) {
+    public void setPrev(final Node<T> prev) {
         this.prev = prev;
     }
 

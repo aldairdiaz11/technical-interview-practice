@@ -8,7 +8,7 @@ public class BinarySearchTest {
 
     @Test
     public void testSearch() {
-        int[] searchable = {1, 2, 7, 8, 22, 28, 41, 58, 67, 71, 94};
+        Integer[] searchable = {1, 2, 7, 8, 22, 28, 41, 58, 67, 71, 94};
         int target = 41;
 
         int result = BinarySearch.search(searchable, target);
@@ -17,7 +17,7 @@ public class BinarySearchTest {
 
     @Test
     public void testSearchNotFound() {
-        int[] searchable = {1, 2, 7, 8, 22, 28, 41, 58, 67, 71, 94};
+        Integer[] searchable = {1, 2, 7, 8, 22, 28, 41, 58, 67, 71, 94};
         int target = 95;
 
         int result = BinarySearch.search(searchable, target);
@@ -26,7 +26,7 @@ public class BinarySearchTest {
 
     @Test
     public void testSearchEmpty() {
-        int[] searchable = {};
+        Integer[] searchable = {};
         int target = 95;
         int result = BinarySearch.search(searchable, target);
         assertEquals(-1, result);
@@ -41,7 +41,7 @@ public class BinarySearchTest {
 
     @Test
     public void testSearchFirstElement() {
-        int[] searchable = {1, 2, 7, 8, 22, 28, 41, 58, 67, 71, 94};
+        Integer[] searchable = {1, 2, 7, 8, 22, 28, 41, 58, 67, 71, 94};
         int target = 1;
 
         int result = BinarySearch.search(searchable, target);
@@ -50,7 +50,7 @@ public class BinarySearchTest {
 
     @Test
     public void testSearchLastElement() {
-        int[] searchable = {1, 2, 7, 8, 22, 28, 41, 58, 67, 71, 94};
+        Integer[] searchable = {1, 2, 7, 8, 22, 28, 41, 58, 67, 71, 94};
         int target = 94;
 
         int result = BinarySearch.search(searchable, target);
@@ -59,7 +59,7 @@ public class BinarySearchTest {
 
     @Test
     public void testSearchSingleElement() {
-        int[] searchable = {1};
+        Integer[] searchable = {1};
         int target = 1;
 
         int result = BinarySearch.search(searchable, target);

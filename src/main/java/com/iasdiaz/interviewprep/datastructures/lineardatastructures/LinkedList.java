@@ -2,37 +2,37 @@ package com.iasdiaz.interviewprep.datastructures.lineardatastructures;
 
 import com.iasdiaz.interviewprep.datastructures.Node;
 
-public class LinkedList {
+public class LinkedList<T> {
 
-    public Node head;
+    public Node<T> head;
 
     public LinkedList() {
         this.head = null;
     }
 
-    public void addToHead(final String data) {
-        final Node newHead = new Node(data);
-        final Node current = this.head;
+    public void addToHead(final T data) {
+        final Node<T> newHead = new Node<>(data);
+        final Node<T> current = this.head;
         this.head = newHead;
         if (current != null) {
             this.head.setNext(current);
         }
     }
 
-    public void addToTail(final String data) {
-        Node newTail = this.head;
+    public void addToTail(final T data) {
+        Node<T> newTail = this.head;
         if (newTail == null) {
-            this.head = new Node(data);
+            this.head = new Node<>(data);
         } else {
             while (newTail.getNext() != null) {
                 newTail = newTail.getNext();
             }
-            newTail.setNext(new Node(data));
+            newTail.setNext(new Node<>(data));
         }
     }
 
-    public String removeHead() {
-        final Node current = this.head;
+    public T removeHead() {
+        final Node<T> current = this.head;
         if (current == null) {
             return null;
         }
@@ -42,7 +42,7 @@ public class LinkedList {
 
     public String printList() {
         final StringBuilder output = new StringBuilder("<head> ");
-        Node current = this.head;
+        Node<T> current = this.head;
         while (current != null) {
             output.append(current.getData()).append(" -> ");
             current = current.getNext();
