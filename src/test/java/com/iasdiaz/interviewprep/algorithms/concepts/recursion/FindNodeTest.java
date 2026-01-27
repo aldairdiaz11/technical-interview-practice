@@ -1,4 +1,4 @@
-package com.iasdiaz.interviewprep.algorithms.searching.concepts.recursion;
+package com.iasdiaz.interviewprep.algorithms.concepts.recursion;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

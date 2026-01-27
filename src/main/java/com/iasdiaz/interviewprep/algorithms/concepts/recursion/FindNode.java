@@ -1,4 +1,4 @@
-package com.iasdiaz.interviewprep.algorithms.searching.concepts.recursion;
+package com.iasdiaz.interviewprep.algorithms.concepts.recursion;
 
 import com.iasdiaz.interviewprep.datastructures.Node;
 

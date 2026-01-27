@@ -1,4 +1,4 @@
-package com.iasdiaz.interviewprep.algorithms.searching.concepts.recursion;
+package com.iasdiaz.interviewprep.algorithms.concepts.recursion;
 
 public class Factorial {
     public static int iterativeFactorial(int n) {
