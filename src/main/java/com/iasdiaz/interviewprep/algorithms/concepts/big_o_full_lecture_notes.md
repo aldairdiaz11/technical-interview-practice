@@ -1,5 +1,7 @@
 # Big-O Notation — Full Lecture Notes
 
+Great resource: [here](https://adrianmejia.com/how-to-find-time-complexity-of-an-algorithm-code-big-o-notation/)
+
 ## 1. Introduction to Big-O
 
 Big-O notation is a mathematical tool used to describe the **worst-case growth rate** of an algorithm’s resource usage (
@@ -8,6 +10,7 @@ time or space) as the input size `n` increases.
 Key idea:
 > Big-O focuses on *how fast an algorithm grows*, not how fast it runs for a specific input.
 
+<img src="https://adrianmejia.com/images/time-complexity-examples.png">
 ---
 
 ## 2. Why Big-O Matters
