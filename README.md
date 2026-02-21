@@ -36,6 +36,7 @@ mvn clean package
 src/
   main/java/com/iasdiaz/interviewprep/
     algorithms/
+      graph/
       recursion/
       search/
       sort/
@@ -48,12 +49,14 @@ src/
     problems/
   test/java/com/iasdiaz/interviewprep/
     algorithms/
+      graph/
       recursion/
       search/
       sort/
     datastructures/
       linear/
       nonlinear/
+        graphs/
         hash/
         trees/
 docs/
@@ -70,7 +73,7 @@ docs/
 - [x] Queue
 - [x] Hash Map
 - [x] Trees (BST, Heap, etc.)
-- [ ] Graphs
+- [x] Graphs
 
 ### Algorithms
 - [x] Binary Search
@@ -78,6 +81,7 @@ docs/
 - [x] Merge Sort
 - [x] Quick Sort
 - [x] Recursion fundamentals
+- [x] Graph traversal (DFS, BFS)
 
 ### Problems
 - [x] FizzBuzz
