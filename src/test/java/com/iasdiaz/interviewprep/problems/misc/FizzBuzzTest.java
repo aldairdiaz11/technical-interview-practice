@@ -1,4 +1,4 @@
-package com.iasdiaz.interviewprep.problems;
+package com.iasdiaz.interviewprep.problems.misc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

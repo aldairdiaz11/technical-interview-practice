@@ -1,4 +1,4 @@
-package com.iasdiaz.interviewprep.problems;
+package com.iasdiaz.interviewprep.problems.misc;
 
 import java.util.ArrayList;
 import java.util.List;

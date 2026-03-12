@@ -1,0 +1,4 @@
+example problems:
+Two Sum
+Best Time to Buy and Sell Stock
+Product of Array Except Self
