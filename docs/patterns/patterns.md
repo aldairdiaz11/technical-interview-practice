@@ -8,20 +8,38 @@ Before jumping into coding, classify the problem:
     - Matrix → graph or DFS/BFS
 
 2. **Goal**
-    - Find pair → Two Pointers / Hash Map
-    - Contiguous segment → Sliding Window
-    - Optimal value → DP / Greedy
-    - All combinations → Backtracking
+    - Find pair → consider Two Pointers for suitably ordered input or a Hash Map for fast lookup
+    - Contiguous segment → consider Sliding Window when the window condition can be updated as it moves
+    - Optimal value → consider DP or Greedy; greedy needs a correctness argument
+    - All combinations → Backtracking, often with pruning
 
 3. **Constraints**
-    - `O(n^2)` too slow? → optimize (Two Pointers, Binary Search)
+    - `O(n^2)` too slow? → look for structure that supports a better approach (e.g., hashing, sorting, Two Pointers, or
+      Binary Search)
     - Small constraints? → brute force may pass
 
 4. **Key signals**
     - "Sorted" → Binary Search / Two Pointers
-    - "Shortest path" → BFS
+    - "Shortest path" → BFS for unweighted edges; Dijkstra for nonnegative weighted edges
     - "All possibilities" → Backtracking
     - "Reuse subproblems" → DP
+
+Before choosing, verify the properties the approach needs: sorted order, nonnegative values, contiguous ranges,
+unweighted edges, or a monotonic condition. These keywords suggest candidates; they do not prove a pattern applies.
+
+## Choosing Between Similar Patterns
+
+- **Two Pointers or Hash Map:** Use two pointers when ordering lets pointer movement safely discard candidates. Use a
+  hash map when you need fast lookup without that ordering; sorting first may change required output indices or add
+  `O(n log n)` time.
+- **Sliding Window or Prefix Sum:** Use a sliding window when expanding and shrinking can maintain validity
+  predictably. For sum constraints with negative values, prefix sums (often with a hash map) may be needed instead.
+- **BFS or Dijkstra:** BFS finds shortest paths by edge count when all edges have equal cost. Dijkstra handles
+  nonnegative edge weights. Negative weights need a different algorithm.
+- **Heap or Sorting:** A heap suits repeated inserts and removals when you only need the next extreme or top `k`;
+  sorting is often simpler when all candidates are available at once and their full order is needed.
+- **Backtracking or DP:** Backtracking enumerates candidate solutions. DP combines results for repeated states when
+  the goal is to count, optimize, or decide without listing every solution.
 
 # Problem Patterns
 
@@ -130,7 +148,9 @@ def two_sum_sorted(nums, target):
 ## Sliding Window
 
 Sliding window is used when you need information about a contiguous subarray or substring. Instead of recomputing from
-scratch for every range, you expand and shrink a window while maintaining the needed state.
+scratch for every range, you expand and shrink a window while maintaining the needed state. A variable-size window is
+most useful when validity changes predictably as either boundary moves. For sum constraints, the usual expand/shrink
+strategy often depends on nonnegative values; with negative values, consider prefix sums or another approach.
 
 **Good signals:**
 
@@ -285,7 +305,7 @@ def subarray_sum(nums, k):
 
 ## Monotonic Stack
 
-A monotonic stack maintains elements in strictly increasing or decreasing order. Whenever a new element violates
+A monotonic stack maintains elements in increasing or decreasing order. Whenever a new element violates
 the order, you pop until the invariant is restored. This gives you efficient access to the "next greater",
 "next smaller", "previous greater", or "previous smaller" element for every position.
 
@@ -299,14 +319,17 @@ the order, you pop until the invariant is restored. This gives you efficient acc
 
 **Two forms:**
 
-- Monotonic increasing stack: pop when current element is smaller → useful for "next smaller"
-- Monotonic decreasing stack: pop when current element is larger → useful for "next greater"
+- For a next-smaller query, one common approach is to pop larger (or larger-or-equal) values when the current value
+  arrives.
+- For a next-greater query, one common approach is to pop smaller (or smaller-or-equal) values when the current value
+  arrives.
 
 **Tip:** When you pop an element, the element that caused the pop is the answer for the popped element.
 That relationship is the core of every monotonic stack problem.
 
 **Common mistake:** Confusing which direction (next vs. previous) and which order (increasing vs. decreasing)
-you need. Draw a small example first.
+you need. Decide whether equal values count as greater/smaller; use `<` versus `<=` (or `>` versus `>=`) accordingly.
+Draw a small example first.
 
 **Example: next greater element**
 
@@ -337,8 +360,8 @@ Non-linear patterns are common when the problem is better modeled as a tree, gra
 
 ## Hash Map / Set
 
-Used to store and retrieve information in `O(1)` average time. One of the most frequently used patterns at big tech
-interviews — almost every medium problem touches it.
+Used to store and retrieve information in `O(1)` average time. Hash maps and sets are common tools when a problem needs
+fast lookup, membership checks, or frequency counts.
 
 **Good signals:**
 
@@ -385,7 +408,8 @@ def group_anagrams(strs):
 
 **Complexity:**
 
-- Time: `O(n)` for two sum; `O(n * k log k)` for group anagrams where `k` is average string length
+- Time: `O(n)` for two sum; `O(n * k log k)` for group anagrams, where `n` is the number of strings and `k` is their
+  average length
 - Space: `O(n)`
 
 ## Union-Find (Disjoint Set)
@@ -403,7 +427,8 @@ nearly every operation runs in amortized `O(α(n))` time — effectively constan
 **Tip:** Union-Find is often faster and simpler than BFS/DFS when you only need to answer "are these two nodes
 connected?" and don't need the actual path.
 
-**Common mistake:** Forgetting to apply path compression, which degrades performance to `O(log n)` per operation.
+**Common mistake:** Confusing the effects of the two optimizations: union by rank/size keeps tree height logarithmic,
+while path compression speeds up repeated finds. Without balancing, a tree can become linear in the number of elements.
 
 **Example: Union-Find with path compression and union by rank**
 
@@ -463,11 +488,11 @@ meeting conditions.
 - Find the middle node
 - Check if a linked list is a palindrome
 
-**Tip:** When finding the middle, if the list has even length, `slow` lands on the first of the two middle nodes.
-Adjust by one step if you need the second.
+**Tip:** With the loop condition shown below, `slow` lands on the second of the two middle nodes when the list has
+even length. To return the first middle instead, stop when `fast.next.next` is unavailable, taking care to handle
+short lists.
 
-**Common mistake:** Not handling the `None` check for `fast` and `fast.next` before advancing — this crashes on
-lists with even length or no cycle.
+**Common mistake:** Not checking that `fast` and `fast.next` exist before advancing — this can crash on short lists.
 
 **Example: detect cycle**
 
@@ -594,7 +619,10 @@ relationships.
 
 **Common mistake:** Forgetting a visited set in graphs, which can cause infinite loops on cyclic input.
 
-**Example: DFS traversal of a graph**
+**Example: recursive DFS traversal of a graph**
+
+Assume `graph` maps each node to its neighbors and `visited` is a set shared across the traversal. For very deep
+graphs, use an explicit stack to avoid recursion-depth limits.
 
 ```python
 def dfs(graph, node, visited):
@@ -611,6 +639,55 @@ def dfs(graph, node, visited):
 
 - Time: `O(V + E)`
 - Space: `O(V)`
+
+## Topological Sort
+
+Topological sorting orders the vertices of a directed acyclic graph (DAG) so every edge points from an earlier vertex
+to a later one. It is useful for dependency and prerequisite problems. A topological order exists only if the graph
+has no directed cycle.
+
+**Good signals:**
+
+- Tasks with prerequisites or dependencies
+- Need a valid order that respects directed relationships
+- Detect whether a directed graph contains a cycle
+
+**Common approaches:** Kahn's algorithm repeatedly removes zero-indegree vertices using a queue; DFS records vertices
+after exploring their descendants. With Kahn's algorithm, if fewer than `V` vertices are processed, a cycle exists.
+
+**Complexity:** `O(V + E)` time and `O(V)` space.
+
+## Dijkstra's Algorithm
+
+Dijkstra finds shortest-path distances from one source in a graph with nonnegative edge weights. It uses a min-heap
+to process the currently closest known vertex. It is not valid for graphs with negative-weight edges.
+
+**Good signals:**
+
+- Shortest path with nonnegative, unequal edge costs
+- Minimum total cost rather than minimum number of edges
+
+**Common mistake:** Marking a vertex permanently visited when first discovered. A shorter route may be found later;
+finalize a distance when its current best entry is removed from the heap, and skip stale heap entries.
+
+**Complexity:** `O((V + E) log V)` with an adjacency list and binary heap; space is `O(V + E)` including the graph.
+
+## Trie (Prefix Tree)
+
+A trie stores strings by shared prefixes. Each edge represents a character, so prefix queries can take time
+proportional to the query length instead of the number of stored words.
+
+**Good signals:**
+
+- Many words share prefixes
+- Prefix search, autocomplete, or dictionary lookup
+- Need to match words character by character
+
+**Trade-off:** Tries can use substantial memory, especially with large character sets. A hash set may be simpler when
+only exact word lookup is needed.
+
+**Complexity:** Insert and lookup take `O(L)` time for a word of length `L`; space depends on the number of stored
+characters and trie representation.
 
 ## Backtracking
 
@@ -686,6 +763,9 @@ import heapq
 
 
 def k_largest(nums, k):
+    if k <= 0:
+        return []
+
     heap = []
 
     for num in nums:
@@ -700,6 +780,8 @@ def k_largest(nums, k):
 
 - Time: `O(n log k)`
 - Space: `O(k)`
+
+Assumes `k` is positive; when `k` exceeds the input length, this returns all values in descending order.
 
 ## Dynamic Programming
 
@@ -781,13 +863,17 @@ meaning the optimal substructure holds without needing to explore all possibilit
 - Activity selection
 - Assign cookies / task scheduling
 
-**How to verify greedy is safe:** Ask "if I make this choice now, can it ever hurt me later?" If the answer is no,
-greedy is likely correct. If yes, you probably need DP.
+**How to verify greedy is safe:** A useful intuition check is "could this choice hurt a later decision?" You still
+need an argument (such as an exchange argument or an invariant) that the greedy choice preserves an optimal solution.
+If that argument fails, consider DP or another method.
 
 **Common mistake:** Using greedy when the problem actually requires DP. A classic trap: coin change with arbitrary
 denominations — greedy fails, DP is needed.
 
 **Example: interval scheduling (maximum non-overlapping intervals)**
+
+This version allows intervals that touch at an endpoint to be non-overlapping (`start == last_end`), as with
+half-open intervals. If touching intervals count as overlapping, adjust the comparison.
 
 ```python
 def erase_overlap_intervals(intervals):
@@ -829,6 +915,22 @@ Examples:
 
 **Tip:** State your invariant out loud before coding. It shows structured thinking and makes bugs easier to catch.
 
+## Correctness Check Before Coding
+
+After selecting a pattern, explain why it applies and what must remain true:
+
+1. **State the needed assumption.** For example, the array is sorted, edge weights are nonnegative, or every segment
+   must be contiguous.
+2. **Name the invariant or decision rule.** Examples: the window contains no repeated characters; binary search keeps
+   the answer in its search interval; a heap exposes the next smallest candidate.
+3. **Explain why each update is safe.** For two pointers, show why moving one pointer cannot discard a valid answer.
+   For greedy, give a correctness argument such as an exchange argument or show that each choice preserves an optimal
+   solution.
+4. **Check the boundary cases.** Confirm initialization and stopping behavior for empty or smallest inputs, duplicates,
+   and any special values allowed by the constraints.
+
+If you cannot justify a pointer move, greedy choice, or discarded state, revisit the approach before coding.
+
 ## Common Edge Cases
 
 Always check:
@@ -836,26 +938,29 @@ Always check:
 - Empty input
 - Single element
 - All elements the same
-- Large input size (overflow, TLE)
+- Large input size (time limits; integer limits where applicable)
 - Negative numbers
 - Duplicates
 - Already sorted / reverse sorted
 - Disconnected graph (for BFS/DFS)
 - Cycle in linked list or graph
 
-**Interview tip:** Mention at least 2 edge cases before coding. It signals thoroughness without slowing you down.
+**Interview tip:** Identify relevant edge cases before coding; choose a few that could change the algorithm or expose
+bugs.
 
 ---
 
 # Interview Communication Strategy
 
-Big tech interviews evaluate how you think, not just whether you get the right answer. Use this structure every time.
+Interviews often evaluate how you reason as well as whether you reach a correct answer. Adapt this structure to the
+problem and the interviewer's expectations.
 
 ## The Framework
 
 **1. Clarify before you code**
 
 Ask about input constraints, edge cases, and expected output format. Example questions:
+
 - "Can the array be empty?"
 - "Are there duplicate values?"
 - "Should I return indices or values?"
@@ -871,25 +976,25 @@ one solution exists — is that right?"* This confirms understanding and buys th
 Say what you recognize: *"This looks like a sliding window problem because we're looking for a contiguous subarray
 with a constraint."* Interviewers want to see pattern recognition, not just code.
 
-**4. Start with brute force**
+**4. Consider a brute-force baseline**
 
-Always mention the naive solution first, even if you won't code it:
-*"The brute force would be O(n²) with nested loops. I can do better with a hash map."*
+When useful, briefly mention the naive solution before optimizing:
+*"The brute force would be O (n²) with nested loops. I can do better with a hash map."*
 This shows you understand the problem space and sets up your optimization.
 
 **5. Optimize step by step**
 
 Walk through your improvement: *"Instead of scanning for the complement each time, I'll store values I've seen in
-a hash map so each lookup is O(1)."* Don't just jump to the optimal solution silently.
+a hash map so each lookup is O (1)."* Don't just jump to the optimal solution silently.
 
-**6. State complexity before and after coding**
+**6. Explain complexity**
 
-Announce time and space complexity for both your brute force and optimized solution. Be specific:
-*"This is O(n) time and O(n) space because we store at most n entries in the map."*
+State the relevant time and space costs for your approach; compare with a baseline when it clarifies the trade-off:
+*"This is O (n) time and O (n) space because we store at most n entries in the map."*
 
-**7. Code with narration**
+**7. Explain as you code**
 
-Talk while you write. Name variables clearly. If you pause to think, say so:
+Keep the interviewer oriented without narrating every keystroke. Name variables clearly. If you pause to think, say so:
 *"I'm going to use a left pointer here to track the start of the valid window..."*
 
 **8. Test with a concrete example**
@@ -902,16 +1007,16 @@ then try an edge case.
 After testing the happy path, say: *"I should also check what happens with an empty array — in this case the loop
 never runs and we return 0, which is correct."*
 
-## FAANG-Specific Tips
+## Interview Tips
 
-- **Silence is the enemy.** Interviewers at big tech companies are trained to evaluate communication. A wrong answer
-  explained clearly often scores better than a correct answer written in silence.
-- **Don't optimize prematurely.** Get a working solution first, then improve it. Jumping to the optimal solution
-  and getting stuck looks worse than a clean brute force.
+- **Keep communication useful.** Explain your reasoning and assumptions, and ask for a hint when you are stuck. Clear
+  communication helps the interviewer follow your approach, but correctness still matters.
+- **Avoid premature optimization.** Establish a correct approach, then improve it when constraints or trade-offs call
+  for it. If you see an efficient approach immediately, explain why it works.
 - **Name your pattern.** Saying "I'll use a monotonic stack here" signals experience. It also helps the interviewer
   follow your reasoning.
 - **Ask about trade-offs.** If there are multiple valid approaches, briefly mention them:
-  *"I could use a heap for O(n log k) or sort for O(n log n) — since k is small, the heap is better here."*
+  *"I could use a heap for O (n log k) or sort for O (n log n) — since k is small, the heap is better here."*
 - **Recover gracefully.** If you get stuck, say: *"Let me step back and think about what information I need at each
   step."* Interviewers can give hints if you ask — but only if you're communicating.
 - **Write clean code.** Use meaningful variable names. Avoid single-letter names except for standard loop indices.
